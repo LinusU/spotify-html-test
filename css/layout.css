@@ -1,0 +1,55 @@
+
+html,
+body {
+    padding: 0;
+    margin: 0;
+    height: 100%;
+    color: white;
+    font-size: 8pt;
+    font-family: 'Ubuntu';
+}
+
+header {
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    right: 0px;
+    height: 32px;
+    border-bottom: 1px solid #222;
+    background: -webkit-linear-gradient(top, #CCC, #999)
+}
+
+nav {
+    position: absolute;
+    top: 33px;
+    bottom: 41px;
+    left: 0px;
+    width: 192px;
+    border-right: 1px solid #222;
+    border-bottom: 1px solid #222;
+    background-color: #444;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+div[role="main"] {
+    position: absolute;
+    top: 33px;
+    left: 193px;
+    right: 0px;
+    bottom: 41px;
+    border-bottom: 1px solid #222;
+    background-color: #333;
+    overflow-x: hidden;
+    overflow-y: scroll;
+}
+
+footer {
+    position: absolute;
+    bottom: 0px;
+    height: 40px;
+    left: 0px;
+    right: 0px;
+    border-top: 1px solid #777;
+    background: -webkit-linear-gradient(top, #666, #444);
+}

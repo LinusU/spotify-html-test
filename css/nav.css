@@ -1,0 +1,64 @@
+
+nav ul,
+nav li {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+nav ul li {
+    text-transform: uppercase;
+    color: #666;
+    font-weight: bold;
+    padding: 4px;
+}
+
+nav ul li ul li {
+    text-transform: none;
+    color: white;
+    font-weight: normal;
+    padding: 2px 12px;
+    margin: 0px -4px;
+}
+
+nav ul li ul li.dropping {
+    background: white;
+    color: black;
+}
+
+nav b {
+    display: inline-block;
+    background-image: url(../img/nav/song.png);
+    width: 20px;
+    height: 20px;
+    vertical-align: -6px;
+}
+
+nav li.dropping b {
+    background-position: -40px 0px;
+}
+
+.nav-welcome b { background-image: url(../img/nav/whats_new.png); }
+.nav-playqueue b { background-image: url(../img/nav/playqueue.png); }
+.nav-starred b { background-image: url(../img/nav/starred.png); }
+
+li#selected b { background-position: -40px 0px; }
+.nav-welcome#selected b { background-position: -18px 0px; }
+.nav-starred#selected b { background-position: -18px 0px; }
+
+#nav-newplaylist {
+    margin: 8px;
+    padding: 4px;
+    background-color: #333;
+    border-radius: 2px;
+    width: 82px;
+}
+
+#nav-newplaylist b {
+    background-image: url(../img/nav/new_playlist.png);
+    width: 10px;
+    height: 10px;
+    margin-left: 2px;
+    margin-right: 4px;
+    vertical-align: -1px;
+}

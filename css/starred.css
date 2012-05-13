@@ -1,0 +1,9 @@
+
+.starred .img-top {
+    background-image: url(../img/starred.png);
+}
+
+.starred h1 {
+    float: left;
+    margin: 12px 0px;
+}

@@ -1,0 +1,57 @@
+
+.starred .img-top,
+.playlist .img-top,
+.album .img-top,
+.artist .img-album,
+.artist .img-top {
+    display: block;
+    height: 128px;
+    width: 128px;
+    float: left;
+    margin: 12px;
+    background: url(../img/artist.png);
+    border: 1px solid black;
+    box-shadow: 0px -1px 3px #333;
+}
+
+.artist .img-album {
+    background: url(../img/album.png);
+}
+
+.artist h1 {
+    float: left;
+    margin: 12px 0px;
+}
+
+.artist h2 {
+    border-top: 1px solid #666;
+    border-bottom: 1px solid #333;
+    background: -webkit-linear-gradient(top, #5B5B5B, #4B4B4B);
+    clear: both;
+    margin: 12px 0px;
+    padding: 4px 12px;
+}
+
+.artist h3 {
+    margin: 12px 0px;
+    font-size: 12pt;
+    font-weight: normal;
+    text-shadow: 0px -1px 0px black;
+}
+
+.artist h3 span {
+    padding-left: 16px;
+    color: #666;
+    font-weight: normal;
+    font-size: 10pt;
+}
+
+.artist-album {
+    overflow: hidden;
+    clear: both;
+    margin: -12px 0px 48px;
+}
+
+.artist-album .wrap {
+    margin-left: 154px;
+}

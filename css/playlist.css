@@ -1,0 +1,20 @@
+
+.playlist .img-top {
+    background-image: url(../img/track.png);
+}
+
+.playlist h1 {
+    float: left;
+    margin: 12px 0px;
+}
+
+.playlist table {
+    clear: both;
+    border-top: 1px solid #222;
+}
+
+.playlist table tr.dropping th,
+.playlist table tr.dropping td {
+    border-bottom: 2px solid white;
+}
+

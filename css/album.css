@@ -1,0 +1,42 @@
+
+.album .img-top {
+    background: url(../img/album.png);
+}
+
+.album .wrap {
+    float: left;
+}
+
+.album h1 {
+    margin: 12px 0px 6px;
+}
+
+.album h1 span {
+    padding-left: 16px;
+    color: #666;
+    font-weight: normal;
+    font-size: 11pt;
+}
+
+.album h2 {
+    float: left;
+    margin: 0px;
+    font-size: 11pt;
+    font-weight: normal;
+    color: #666;
+}
+
+.album h2 a {
+    color: #CCC;
+}
+
+.album table {
+    border-top: 1px solid #222;
+}
+
+.album p {
+    margin-top: 16px;
+    color: #666;
+    font-size: 8pt;
+    padding-left: 6px;
+}

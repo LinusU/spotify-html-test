@@ -1,0 +1,69 @@
+
+footer {
+    line-height: 36px;
+    padding-left: 12px;
+}
+
+footer a,
+footer span {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+footer a.btn-play,
+footer a.btn-pause {
+    width: 32px;
+    height: 32px;
+    background-image: url(../img/main-control-play_pause.png);
+}
+
+footer a.btn-prev,
+footer a.btn-next {
+    width: 25px;
+    height: 25px;
+    background-image: url(../img/main-control-prev_next.png);
+}
+
+footer a.btn-play { background-position: 0px 0px; }
+footer a.btn-play:active { background-position: -32px 0px; }
+footer a.btn-play.disabled { background-position: -64px 0px; }
+
+footer a.btn-pause { background-position: -96px 0px; }
+footer a.btn-pause:active { background-position: -128px 0px; }
+footer a.btn-pause.disabled { background-position: -160px 0px; }
+
+footer a.btn-prev { background-position: 0px 0px; }
+footer a.btn-prev:active { background-position: -25px 0px; }
+footer a.btn-prev.disabled { background-position: -50px 0px; }
+
+footer a.btn-next { background-position: -75px 0px; }
+footer a.btn-next:active { background-position: -100px 0px; }
+footer a.btn-next.disabled { background-position: -125px 0px; }
+
+footer span.txt-pos {
+    width: 48px;
+    text-align: right;
+    position: absolute;
+    left: 136px;
+}
+
+footer span.txt-dur {
+    width: 48px;
+    text-align: left;
+    position: absolute;
+    right: 136px;
+}
+
+footer .wrap {
+    position: absolute;
+    left: 192px;
+    right: 192px;
+    top: 12px;
+    bottom: 12px;
+}
+
+footer progress {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
