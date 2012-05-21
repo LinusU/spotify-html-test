@@ -78,21 +78,31 @@
     
     <script type="text/javascript">
         
-        $.ajaxSetup({
-            cache: true
-        });
+        /*
+            Workaround since Chrome dosen't allow ajaxing to local files. We use
+            this instead of $.getScript(src); Unforunate, this also makes the
+            welcome-screen unable to load.
+        */
+        
+        function loadScript(src) {
+            var e = document.createElement('script');
+            e.type = 'text/javascript';
+            e.async = true;
+            e.src = src;
+            document.getElementsByTagName('head')[0].appendChild(e);
+        }
         
         /* Initialize Spotify */
         Spotify.getInstance();
         
         /* Load the interface */
-        $.getScript('js/interface.header.js');
-        $.getScript('js/interface.nav.js');
-        $.getScript('js/interface.main.js');
-        $.getScript('js/interface.footer.js');
+        loadScript('js/interface.header.js');
+        loadScript('js/interface.nav.js');
+        loadScript('js/interface.main.js');
+        loadScript('js/interface.footer.js');
         
         /* Set up keyboard bindings */
-        $.getScript('js/interface.keyboard.js');
+        loadScript('js/interface.keyboard.js');
         
     </script>
     
