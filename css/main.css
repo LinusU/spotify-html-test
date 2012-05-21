@@ -22,7 +22,10 @@ table {
 }
 
 th {
+    background: #AAA;
     background: -webkit-linear-gradient(top, #AAA, #888);
+    background: -moz-linear-gradient(top, #AAA, #888);
+    background: linear-gradient(to bottom, #AAA, #888);
     border-left: 1px solid #AAA;
     border-right: 1px solid #666;
     font-weight: normal;

@@ -1,0 +1,22 @@
+
+.now-playing b.img-track {
+    float: left;
+    margin: 1px 8px 0px 4px;
+    width: 24px;
+    height: 24px;
+    border: 1px solid black;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-image: url(../img/track-icon.png);
+}
+
+.now-playing {
+    line-height: 14px;
+    color: #CCC;
+}
+
+.now-playing:first-line {
+    color: white;
+}

@@ -3,8 +3,6 @@
 
 function Player () {
     
-    this._timeout = null;
-    
     this._iframe = $('<iframe />').css({
         position: 'absolute',
         top: -100,
@@ -15,20 +13,12 @@ function Player () {
     
 }
 
-Player.prototype._clear = function () {
-    clearTimeout(this._timeout);
-    this._timeout = null;
-}
-
 Player.prototype.stop = function () {
-    if(this._timeout) { this._clear(); }
+    /* Last song in album, end of song. Kind of hacky */
     this._iframe.src = "spotify:track:764cu9dFplkOmG16J6aX8G#6:05";
 }
 
 Player.prototype.play = function (track, pos) {
-    if(this._timeout) { this._clear(); }
-    this._iframe.src = track.uri + '#' + Renderer.duration(pos || 0);
-    this._timeout = setTimeout(function (o) {
-        o.stop();
-    }, track.duration - 100, this);
+    /* This will launch Spotify and make it play the track */
+    this._iframe.src = track.uri + '#' + Spotify.Renderer.duration(pos || 0);
 }

@@ -1,4 +1,48 @@
 
+.search-album,
+.search-artist {
+    width: 50%;
+    float: left;
+    padding-bottom: 8px;
+    background: #373737;
+}
+
+.search-album div,
+.search-artist div {
+    margin: 0px 12px 4px;
+    padding: 4px 0px 2px;
+    overflow: hidden;
+    line-height: 13px;
+}
+
+.search-album div span,
+.search-artist div span {
+    color: #666;
+}
+
+div.search h1 {
+    margin: 0px 12px;
+    padding: 12px 0px;
+    background: url(../img/updown.png) no-repeat scroll right center;
+    font-size: 12pt;
+}
+
+div.search b.img-album,
+div.search b.img-artist {
+    float: left;
+    margin-right: 12px;
+    width: 24px;
+    height: 24px;
+    border: 1px solid black;
+    border-radius: 3px;
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+    background-position: center center;
+    background-repeat: no-repeat;
+}
+
+div.search b.img-album { background-image: url(../img/album-icon.png); }
+div.search b.img-artist { background-image: url(../img/artist-icon.png); }
+
 table.search {
     border-top: 1px solid #CCC;
 }

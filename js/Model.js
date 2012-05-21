@@ -3,7 +3,7 @@
 
 function Model () {}
 
-Model.cache = {};
+Model.cache = {}
 
 Model.fromURI = function (uri, cb) {
     
@@ -24,12 +24,12 @@ Model.fromURI = function (uri, cb) {
     });
     
     return m;
-};
+}
 
 Model.prototype._load = function (data) {
     throw "Abstract class";
-};
+}
 
 Model.prototype.toString = function () {
     throw "Abstract class";
-};
+}

@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
+    
     <title>Spotify</title>
     
     <link rel="stylesheet" type="text/css" href="css/main.css" />
@@ -10,7 +11,9 @@
     <link rel="stylesheet" type="text/css" href="css/nav.css" />
     <link rel="stylesheet" type="text/css" href="css/artist.css" />
     <link rel="stylesheet" type="text/css" href="css/album.css" />
+    <link rel="stylesheet" type="text/css" href="css/search.css" />
     <link rel="stylesheet" type="text/css" href="css/playlist.css" />
+    <link rel="stylesheet" type="text/css" href="css/nowplaying.css" />
     <link rel="stylesheet" type="text/css" href="css/starred.css" />
     
     <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -19,14 +22,15 @@
     <script type="text/javascript" src="js/Track.js"></script>
     <script type="text/javascript" src="js/Album.js"></script>
     
-    <script type="text/javascript" src="js/Renderer.js"></script>
-    
     <script type="text/javascript" src="js/Playlist.js"></script>
     
     <script type="text/javascript" src="js/Player.js"></script>
     <script type="text/javascript" src="js/PlayQueue.js"></script>
     
     <script type="text/javascript" src="js/Spotify.js"></script>
+    
+    <script type="text/javascript" src="js/Spotify.Renderer.js"></script>
+    <script type="text/javascript" src="js/Spotify.Views.js"></script>
     
 </head>
 <body>
@@ -37,16 +41,27 @@
     
     <nav>
         <ul>
-            <li>Main<ul>
-                <li class="nav-welcome" href="spotify:welcome"><b></b>Welcome</li>
-                <li class="nav-playqueue" href="spotify:playqueue"><b></b>Play Queue</li>
-                <li class="nav-starred" href="spotify:starred"><b></b>Starred</li>
-            </ul></li>
-            <li>Collection<ul id="playlists">
-                <li id="nav-newplaylist"><b></b>New playlist</li>
-            </ul></li>
+            <li>
+                Main
+                <ul>
+                    <li class="nav-welcome" href="#spotify:welcome"><b></b>Welcome</li>
+                    <li class="nav-playqueue" href="#spotify:playqueue"><b></b>Play Queue</li>
+                    <li class="nav-starred" href="#spotify:starred"><b></b>Starred</li>
+                </ul>
+            </li>
+            <li>
+                Collection
+                <ul id="playlists">
+                    <li id="nav-newplaylist"><b></b>New playlist</li>
+                </ul>
+            </li>
         </ul>
     </nav>
+    
+    <div class="now-playing">
+        <b class="img-track"></b>
+        <span></span><br /><span></span>
+    </div>
     
     <div role="main">
         
@@ -63,351 +78,21 @@
     
     <script type="text/javascript">
         
-        Spotify.getInstance().load('spotify:welcome');
-        
-        $('header input').on('keypress', function (e) {
-            
-            var v;
-            
-            if(e.keyCode == 13) {
-                v = $(this).val();
-                (document.getElementById('selected') || {}).id = "";
-                Spotify.getInstance().load((v.substring(0, 8)=='spotify:'?'':'spotify:search:')+v);
-            }
-            
+        $.ajaxSetup({
+            cache: true
         });
         
-        $(document).on('keydown', function (e) {
-            
-            var el = document.getElementById('selected');
-            var $el;
-            
-            if(!el) { return ; }
-            
-            $el = $(el);
-            
-            if($el.is('tr')) {
-                
-                if(e.keyCode == 38) {
-                    $el = $el.prev('tr');
-                    if($el.length && $el.children('td').length) {
-                        el.id = "";
-                        $el[0].id = "selected";
-                    }
-                    e.preventDefault();
-                }
-                
-                if(e.keyCode == 40) {
-                    $el = $el.next('tr');
-                    if($el.length) {
-                        el.id = "";
-                        $el[0].id = "selected";
-                    }
-                    e.preventDefault();
-                }
-                
-                /* FIXME: Scroll selected item into view if neccesary */
-                
-                if(e.keyCode == 8 || e.keyCode == 46) {
-                    
-                    if(Spotify.getInstance().uri.substring(0, 17) == "spotify:playlist:") {
-                        
-                        var p = new Playlist(Spotify.getInstance().uri.substring(17));
-                        
-                        p.remove($el.index() - 1);
-                        p.save();
-                        
-                        $el.remove();
-                        
-                    }
-                    
-                    e.preventDefault();
-                    
-                }
-                
-            }
-            
-            if($el.is('li')) {
-                
-                if(e.keyCode == 38) {
-                    $el.prev('li[href]').trigger('click');
-                    e.preventDefault();
-                }
-                
-                if(e.keyCode == 40) {
-                    $el.next('li[href]').trigger('click');
-                    e.preventDefault();
-                }
-                
-                if(e.keyCode == 8 || e.keyCode == 46) {
-                    
-                    var p = new Playlist($el.attr('href').substring(17));
-                    
-                    if(confirm('Are you sure that you want to remove the playlist "' + p.title() + '"?')) {
-                        Playlist.remove(p.id());
-                        $el.remove();
-                    }
-                    
-                    e.preventDefault();
-                    
-                }
-            }
-            
-        });
+        /* Initialize Spotify */
+        Spotify.getInstance();
         
-        $('div[role="main"]').on('click', 'a', function (e) {
-            e.preventDefault();
-            Spotify.getInstance().load(this.href);
-        });
+        /* Load the interface */
+        $.getScript('js/interface.header.js');
+        $.getScript('js/interface.nav.js');
+        $.getScript('js/interface.main.js');
+        $.getScript('js/interface.footer.js');
         
-        $('div[role="main"]').on('click', 'td.col-fav', function (e) {
-            var val, href = $(this).parent().data('href');
-            if(href) {
-                val = $(this).hasClass('starred');
-                $('tr[data-href="' + href + '"] .col-fav')[val?"removeClass":"addClass"]('starred');
-                Spotify.getInstance().starred(href, !val);
-            }
-        });
-        
-        $('div[role="main"]').on('click', 'tr', function (e) {
-            var el = document.getElementById('selected');
-            if(el) { el.id = ""; }
-            this.id = "selected";
-        });
-        
-        $('div[role="main"]').on('dblclick', 'tr', function (e) {
-            
-            var tracks = [], index = $(this).index() - 1;
-            
-            $(this).parent().find('tr[data-href]').each(function () {
-                tracks.push($(this).data('href'));
-            });
-            
-            Spotify.getInstance().queue.setQueue(tracks, index);
-        });
-        
-        $('div[role="main"]').on('dragstart', 'tr', function (e) {
-            
-            var img = $('<div>' + $(this).find('.col-track').text() + ' by ' + $(this).find('.col-artist').text() + '</div>').css({ background: 'rgba(255, 255, 255, 0.8)', border: '1px solid black', color: 'black', padding: 2, float: 'left' }).appendTo('body')[0];
-            
-            e.originalEvent.dataTransfer.setData('text/plain', $(this).index() - 1);
-            e.originalEvent.dataTransfer.setData('text/uri-list', $(this).data('href'));
-            e.originalEvent.dataTransfer.setDragImage(img, 1, 18);
-            
-            $(this).css('opacity', .4);
-            
-        });
-        
-        $('div[role="main"]').on('dragend', 'tr', function (e) {
-            $(this).css('opacity', '');
-        });
-        
-        $('div[role="main"]').on('dragenter', '.playlist tr', function (e) {
-            $(this).addClass('dropping');
-            e.originalEvent.dataTransfer.dropEffect = "move";
-            e.preventDefault();
-        });
-        
-        $('div[role="main"]').on('dragover', '.playlist tr', function (e) {
-            e.preventDefault();
-        });
-        
-        $('div[role="main"]').on('dragleave', '.playlist tr', function (e) {
-            $(this).removeClass('dropping');
-        });
-        
-        $('div[role="main"]').on('drop', '.playlist tr', function (e) {
-            
-            var p, idx, index;
-            
-            p = new Playlist(Spotify.getInstance().uri.substring(17));
-            idx = parseInt(e.originalEvent.dataTransfer.getData('text/plain'), 10);
-            index = $(this).removeClass('dropping').index();
-            
-            if(idx != index && idx != index - 1) {
-                
-                p.move(idx, index);
-                p.save();
-                
-                $(this).parent().find('tr').eq(++idx).insertAfter(this);
-                
-            }
-            
-        });
-        
-        $('nav').on('click', 'li[href]', function (e) {
-            
-            var sel;
-            var href = this.getAttribute('href');
-            
-            if(href) {
-                
-                sel = document.getElementById('selected');
-                
-                if(sel) { sel.id = ""; }
-                
-                this.id = "selected";
-                Spotify.getInstance().load(href);
-                
-                e.preventDefault();
-                
-            }
-            
-        });
-        
-        $('.nav-playqueue').on('dragenter', function (e) {
-            $(this).addClass('dropping');
-            e.originalEvent.dataTransfer.dropEffect = "copy";
-            e.preventDefault();
-        });
-        
-        $('.nav-playqueue').on('dragover', function (e) {
-            e.preventDefault();
-        });
-        
-        $('.nav-playqueue').on('dragleave', function (e) {
-            $(this).removeClass('dropping');
-        });
-        
-        $('.nav-playqueue').on('drop', function (e) {
-            
-            var uri;
-            
-            $(this).removeClass('dropping');
-            
-            uri = e.originalEvent.dataTransfer.getData('text/uri-list');
-            
-            if(uri.substring(0, 8) == "spotify:") {
-                Spotify.getInstance().queue.enqueue(uri);
-            }
-            
-        });
-        
-        
-        $('#nav-newplaylist').on('click', function () {
-            
-            var p;
-            var title = prompt("Please provide a title for the new playlist:");
-            
-            if(!title) { return ; }
-            
-            p = Playlist.create(title);
-            
-            $('#playlists').append('<li href="spotify:playlist:' + p.id() + '"><b></b>' + p.title() + '</li>');
-            
-        });
-        
-        (function () {
-            
-            var i;
-            var pls = Playlist.list();
-            var $pls = $('#playlists');
-            
-            $pls.on('dragenter', 'li', function (e) {
-                $(this).addClass('dropping');
-                e.originalEvent.dataTransfer.dropEffect = "copy";
-                e.preventDefault();
-            });
-            
-            $pls.on('dragover', 'li', function (e) {
-                e.preventDefault();
-            });
-            
-            $pls.on('dragleave', 'li', function (e) {
-                $(this).removeClass('dropping');
-            });
-            
-            $pls.on('drop', 'li', function (e) {
-                
-                var p, href, uri;
-                
-                $(this).removeClass('dropping');
-                
-                href = this.getAttribute('href');
-                p = new Playlist(href.substring(17));
-                
-                uri = e.originalEvent.dataTransfer.getData('text/uri-list');
-                
-                if(uri.substring(0, 8) == "spotify:") {
-                    p.add(uri);
-                    p.save();
-                }
-                
-            });
-            
-            for(i=0; i<pls.length; i++) {
-                $pls.append('<li href="spotify:playlist:' + pls[i].id + '"><b></b>' + pls[i].title + '</li>');
-            }
-            
-        })();
-        
-        $('footer').on('click', '.btn-prev', function () {
-            Spotify.getInstance().queue.previous();
-        });
-        
-        $('footer').on('click', '.btn-play', function () {
-            Spotify.getInstance().queue.playing(true);
-            $(this).removeClass('btn-play').addClass('btn-pause');
-        });
-        
-        $('footer').on('click', '.btn-pause', function () {
-            Spotify.getInstance().queue.playing(false);
-            $(this).removeClass('btn-pause').addClass('btn-play');
-        });
-        
-        $('footer').on('click', '.btn-next', function () {
-            Spotify.getInstance().queue.next();
-        });
-        
-        $(document).on('queue-update', function () {
-            
-            var s = Spotify.getInstance();
-            var q = s.queue;
-            var p = q.position();
-            var t = q.track();
-            
-            $('footer .btn-prev').toggleClass('disabled', !q.canPlayPrevious());
-            $('footer .btn-next').toggleClass('disabled', !q.canPlayNext());
-            $('footer .btn-play, footer .btn-pause').toggleClass('disabled', !q.canPlayPause());
-            
-            if(q.playing()) {
-                $('footer .btn-play').removeClass('btn-play').addClass('btn-pause');
-            } else {
-                $('footer .btn-pause').removeClass('btn-pause').addClass('btn-play');
-            }
-            
-            if(s.uri == "spotify:playqueue") {
-                s.load(s.uri);
-            }
-            
-            $('footer .txt-pos').text(Renderer.duration(p));
-            $('footer progress').prop('value', p);
-            
-            if(t) {
-                Track.fromURI(t, function (t) {
-                    $('footer progress').prop('max', t.duration);
-                    $('footer .txt-dur').text(Renderer.duration(t.duration));
-                });
-            } else {
-                $('footer progress').prop('max', 1);
-                $('footer .txt-dur').text(Renderer.duration(0));
-            }
-            
-        }).trigger('queue-update');
-        
-        (function () {
-            
-            var q = Spotify.getInstance().queue;
-            var $pos = $('footer .txt-pos');
-            var $pro = $('footer progress');
-            
-            setInterval(function () {
-                var p = q.position();
-                $pos.text(Renderer.duration(p));
-                $pro.prop('value', p);
-            }, 350);
-            
-        })();
+        /* Set up keyboard bindings */
+        $.getScript('js/interface.keyboard.js');
         
     </script>
     

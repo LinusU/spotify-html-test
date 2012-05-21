@@ -16,13 +16,16 @@ header {
     right: 0px;
     height: 32px;
     border-bottom: 1px solid #222;
-    background: -webkit-linear-gradient(top, #CCC, #999)
+    background: #CCC;
+    background: -webkit-linear-gradient(top, #CCC, #999);
+    background: -moz-linear-gradient(top, #CCC, #999);
+    background: linear-gradient(to bottom, #CCC, #999);
 }
 
 nav {
     position: absolute;
     top: 33px;
-    bottom: 41px;
+    bottom: 78px;
     left: 0px;
     width: 192px;
     border-right: 1px solid #222;
@@ -30,6 +33,19 @@ nav {
     background-color: #444;
     overflow-x: hidden;
     overflow-y: scroll;
+}
+
+div.now-playing {
+    position: absolute;
+    padding: 4px 2px;
+    bottom: 41px;
+    height: 28px;
+    left: 0px;
+    width: 188px;
+    border-right: 1px solid #222;
+    border-bottom: 1px solid #222;
+    background-color: #444;
+    overflow: hidden;
 }
 
 div[role="main"] {
@@ -51,5 +67,8 @@ footer {
     left: 0px;
     right: 0px;
     border-top: 1px solid #777;
+    background: #666;
     background: -webkit-linear-gradient(top, #666, #444);
+    background: -moz-linear-gradient(top, #666, #444);
+    background: linear-gradient(to bottom, #666, #444);
 }

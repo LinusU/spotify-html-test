@@ -19,6 +19,7 @@ nav ul li ul li {
     font-weight: normal;
     padding: 2px 12px;
     margin: 0px -4px;
+    cursor: pointer;
 }
 
 nav ul li ul li.dropping {

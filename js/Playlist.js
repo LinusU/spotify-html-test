@@ -27,7 +27,7 @@ Playlist.create = function (title) {
     localStorage.setItem('playlists', JSON.stringify(pls));
     
     return new Playlist(id);
-};
+}
 
 Playlist.remove = function (id) {
     
@@ -47,12 +47,11 @@ Playlist.remove = function (id) {
     
     localStorage.setItem('playlists', JSON.stringify(pls));
     
-    return ;
-};
+}
 
 Playlist.list = function () {
     return JSON.parse(localStorage.getItem('playlists') || "[]");
-};
+}
 
 Playlist.prototype.load = function (id) {
     
@@ -72,7 +71,7 @@ Playlist.prototype.load = function (id) {
     this._title = "";
     this._tracks = [];
     
-};
+}
 
 Playlist.prototype.save = function () {
     
@@ -96,7 +95,7 @@ Playlist.prototype.save = function () {
     
     localStorage.setItem('playlists', JSON.stringify(pls));
     
-};
+}
 
 Playlist.prototype.id = function () { return this._id; }
 Playlist.prototype.title = function () { return this._title; }
@@ -104,13 +103,13 @@ Playlist.prototype.tracks = function () { return this._tracks; }
 
 Playlist.prototype.add = function (uri) {
     this._tracks.push(uri);
-};
+}
 
 Playlist.prototype.remove = function (key) {
     this._tracks.splice(key, 1);
-};
+}
 
 Playlist.prototype.move = function (key, pos) {
     var val = this._tracks.splice(key, 1)[0];
     this._tracks.splice((pos>key?--pos:pos), 0, val);
-};
+}

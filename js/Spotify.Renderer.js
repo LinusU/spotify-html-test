@@ -1,7 +1,11 @@
 
 "use strict";
 
-window.Renderer = {
+if(!window.Spotify) {
+    throw "Include Spotify first";
+}
+
+Spotify.Renderer = {
     
     duration: function (d) {
         
@@ -16,14 +20,18 @@ window.Renderer = {
         var r = '';
         
         for(var i=0; i<as.length; i++) {
-            r += (r==''?'':', ') + '<a href="' + as[i].href + '">' + as[i].name + '</a>';
+            r += (r==''?'':', ') + Spotify.Renderer.artist(as[i]);
         }
         
         return r;
     },
     
+    artist: function (a) {
+        return '<a href="#' + a.href + '">' + a.name + '</a>';
+    },
+    
     album: function (a) {
-        return '<a href="' + a.href + '">' + a.name + '</a>';
+        return '<a href="#' + a.href + '">' + a.name + '</a>';
     },
     
     header: function (ctx) {
@@ -42,15 +50,15 @@ window.Renderer = {
     track: function (t, ctx) {
         
         if(ctx == "starred" || ctx == "playlist" || ctx == "playqueue") {
-            return '<tr data-href="' + t.uri + '" draggable="true"><td class="col-fav"></td><td class="col-track"></td><td class="col-artist"></td><td class="col-length"></td><td class="col-album"></td></tr>';
+            return '<tr href="' + t.uri + '" draggable="true"><td class="col-fav"></td><td class="col-track"></td><td class="col-artist"></td><td class="col-length"></td><td class="col-album"></td></tr>';
         }
         
         if(ctx == "album" || ctx == "artist-album") {
-            return '<tr data-href="' + t.uri + '" draggable="true"><td class="col-fav' + (t.starred?' starred':'') + '">\u2605</td><td class="col-num">' + t.number + '</td><td class="col-track">' + t.name + '</td><td class="col-length">' + Renderer.duration(t.duration) + '</td></tr>';
+            return '<tr href="' + t.uri + '" draggable="true"><td class="col-fav' + (t.starred?' starred':'') + '">\u2605</td><td class="col-num">' + t.number + '</td><td class="col-track">' + t.name + '</td><td class="col-length">' + Spotify.Renderer.duration(t.duration) + '</td></tr>';
         }
         
         if(ctx == "search") {
-            return '<tr data-href="' + t.uri + '" draggable="true"><td class="col-fav' + (t.starred?' starred':'') + '">\u2605</td><td class="col-track">' + t.name + '</td><td class="col-artist">' + Renderer.artists(t.artists) + '</td><td class="col-length">' + Renderer.duration(t.duration) + '</td><td class="col-album">' + Renderer.album(t.album) + '</td></tr>';
+            return '<tr href="' + t.uri + '" draggable="true"><td class="col-fav' + (t.starred?' starred':'') + '">\u2605</td><td class="col-track">' + t.name + '</td><td class="col-artist">' + Spotify.Renderer.artists(t.artists) + '</td><td class="col-length">' + Spotify.Renderer.duration(t.duration) + '</td><td class="col-album">' + Spotify.Renderer.album(t.album) + '</td></tr>';
         }
         
         throw "Unknown context";
@@ -58,12 +66,12 @@ window.Renderer = {
     
     populate_track: function (t) {
         
-        $('tr[data-href="' + t.uri + '"]')
+        $('tr[href="' + t.uri + '"]')
             .find('.col-fav').text('\u2605')[t.starred?"addClass":"removeClass"]('starred').end()
             .find('.col-track').html(t.name).end()
-            .find('.col-artist').html(Renderer.artists(t.artists)).end()
-            .find('.col-length').html(Renderer.duration(t.duration)).end()
-            .find('.col-album').html(Renderer.album(t.album));
+            .find('.col-artist').html(Spotify.Renderer.artists(t.artists)).end()
+            .find('.col-length').html(Spotify.Renderer.duration(t.duration)).end()
+            .find('.col-album').html(Spotify.Renderer.album(t.album));
         
     }
     
