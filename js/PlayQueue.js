@@ -118,7 +118,6 @@ PlayQueue.prototype.canPlayPause = function () {
 /* Functions */
 
 PlayQueue.prototype._backendFn = function (fn, track, pos) {
-    console.log([fn, track, pos]);
     if(this._backend) { this._backend[fn](track, pos); }
 }
 
