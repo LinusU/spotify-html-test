@@ -32,6 +32,7 @@
 
 .album table {
     border-top: 1px solid #222;
+    clear: both;
 }
 
 .album p {
