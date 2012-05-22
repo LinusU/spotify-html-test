@@ -29,12 +29,19 @@
     
     /* Skip to specific position */
     $footer.find('progress').on('click', function (e) {
+        
+        /* Workaround for Firefox */
+        if(e.offsetX == undefined) {
+            e.offsetX = e.originalEvent.layerX;
+        }
+        
         var w = $(this).width();
         var p = e.offsetX / w;
         var m = $(this).prop('max');
         var v = Math.round(p * m);
         $(this).prop('value', v);
         Spotify.getInstance().queue.position(v);
+        
     });
     
     /* Update the interface with the latest now playing data */
