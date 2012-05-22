@@ -64,6 +64,7 @@
     
     $('div[role="main"]').on('dragleave', '.playlist tr', function (e) {
         $(this).removeClass('dropping');
+        e.preventDefault();
     });
     
     $('div[role="main"]').on('drop', '.playlist tr', function (e) {
@@ -82,6 +83,8 @@
             $(this).parent().find('tr').eq(++idx).insertAfter(this);
             
         }
+        
+        e.preventDefault();
         
     });
     

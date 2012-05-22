@@ -37,6 +37,7 @@
     
     $('.nav-playqueue').on('dragleave', function (e) {
         $(this).removeClass('dropping');
+        e.preventDefault();
     });
     
     $('.nav-playqueue').on('drop', function (e) {
@@ -50,6 +51,8 @@
         if(uri.substring(0, 8) == "spotify:") {
             Spotify.getInstance().queue.enqueue(uri);
         }
+        
+        e.preventDefault();
         
     });
     
@@ -92,6 +95,7 @@
         
         $pls.on('dragleave', 'li', function (e) {
             $(this).removeClass('dropping');
+            e.preventDefault();
         });
         
         $pls.on('drop', 'li', function (e) {
@@ -109,6 +113,8 @@
                 p.add(uri);
                 p.save();
             }
+            
+            e.preventDefault();
             
         });
         
