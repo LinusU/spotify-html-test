@@ -27,6 +27,16 @@
         Spotify.getInstance().queue.next();
     });
     
+    /* Skip to specific position */
+    $footer.find('progress').on('click', function (e) {
+        var w = $(this).width();
+        var p = e.offsetX / w;
+        var m = $(this).prop('max');
+        var v = Math.round(p * m);
+        $(this).prop('value', v);
+        Spotify.getInstance().queue.position(v);
+    });
+    
     /* Update the interface with the latest now playing data */
     $(document).on('queue-update', function () {
         
